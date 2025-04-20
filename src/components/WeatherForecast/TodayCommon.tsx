@@ -36,7 +36,7 @@ export default function TodayCommon({
           <LocationIcon />
           <p className="text-lg leading-none">{location ? getLocationName(location) : '~'}</p>
         </div>
-        <div className="flex flex-col sm:flex-row lg:flex-col 2xl:flex-row xl:items-center justify-between gap-[29px]">
+        <div className=" mt-2 flex flex-col sm:flex-row lg:flex-col 2xl:flex-row sm:items-start items-center lg:items-center 2xl:items-start justify-between gap-[29px]">
           <div>
             <h3 className="font-medium text-2xl  md:text-[2.25rem]">
               {currentWeatherInfo ? getDayOfWeek(currentWeatherInfo.dt) : '~'}

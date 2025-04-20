@@ -66,6 +66,7 @@ export default function CountryDetail({ location, itemIndex, onDrop }: Props) {
       ></div>
       {/* @ts-ignore */}
       <Widget
+        // @ts-ignore
         ref={drag}
         className={`group relative  ${isDragging ? 'opacity-0.5' : 'cursor-grab'}`}
       >

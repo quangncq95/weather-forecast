@@ -41,7 +41,7 @@ const Modal = forwardRef(function Modal(props: Props, ref) {
   return (
     <dialog ref={dialogRef} className="bg-[#000000C9] z-9999 modal">
       <div
-        className={`max-w-none rounded-10 !bg-[#090909] p-8 rounded-2xl border border-[#303239] ${props.className}`}
+        className={`modal-box  rounded-10 !bg-[#090909] p-[60px] border border-[#303239] ${props.className}`}
       >
         <ModalContext.Provider value={{ isOpen, closeModal }}>
           {props.children}
