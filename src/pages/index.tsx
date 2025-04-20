@@ -1,6 +1,9 @@
 import SearchInput from '@/components/common/SearchInput';
 import DefaultLayout from '@/components/layout/DefaultLayout';
+import MultipleDayForecast from '@/components/WeatherForecast/MultipleDayForecast';
+import OthersCountries from '@/components/WeatherForecast/OthersCountries';
 import TodayCommon from '@/components/WeatherForecast/TodayCommon';
+import TodayDetail from '@/components/WeatherForecast/TodayDetail';
 
 export default function MainPage() {
   return (
@@ -12,8 +15,11 @@ export default function MainPage() {
         </div>
         <SearchInput placeholder="Search your location" />
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 gap-6 mt-6">
         <TodayCommon />
+        <TodayDetail />
+        <OthersCountries />
+        <MultipleDayForecast />
       </div>
     </DefaultLayout>
   );

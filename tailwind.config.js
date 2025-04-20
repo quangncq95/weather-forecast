@@ -9,6 +9,7 @@ export default {
         'black-5e': '#5E5E5E',
         'black-36': '#363636',
         'black-b9': '#B9B9B9',
+        'black-7e': '#7E7E7E',
         'widget': '#272727',
       },
       fontFamily: {

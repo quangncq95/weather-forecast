@@ -8,7 +8,7 @@ interface Props {
 
 export default function TodayCommon({ className }: Props) {
   return (
-    <Widget>
+    <Widget className="!bg-black-1e">
       <div className={`flex flex-col gap-2 ${className}`}>
         <div className="py-2 px-4 bg-black-36 rounded-2xl flex items-center gap-2 w-fit">
           <LocationIcon />
