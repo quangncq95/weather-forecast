@@ -6,10 +6,11 @@ import { useDebounce } from '@/lib/hooks/useDebounce';
 import { getLocationName } from '@/lib/utils/location';
 
 interface Props {
+  className?: string;
   onSelectLocation?: (location: Location) => void;
 }
 
-export default function SearchCurrentLocation({ onSelectLocation }: Props) {
+export default function SearchCurrentLocation({ onSelectLocation, className }: Props) {
   const [searchValue, setSearchValue] = useState<string>('');
   const debouncedSearch = useDebounce(searchValue, 900);
   const [focused, setFocused] = useState(false);
@@ -42,7 +43,7 @@ export default function SearchCurrentLocation({ onSelectLocation }: Props) {
   }
 
   return (
-    <div>
+    <div className={`${className}`}>
       <Input
         showSearchIcon
         placeholder="Search your location"

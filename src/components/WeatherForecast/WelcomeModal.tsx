@@ -5,6 +5,7 @@ import { locationApi } from '@/lib/apis/locationApi';
 import { useState } from 'react';
 import { Location } from '@/lib/types/location';
 import { useModal } from '@/components/common/Modal';
+import SearchCurrentLocation from './SearchCurrentLocation';
 
 export default function WelcomeModal() {
   const { closeModal } = useModal();
@@ -47,7 +48,12 @@ export default function WelcomeModal() {
           setUserNameState(e.target.value);
         }}
       />
-      <Input placeholder="Search and select your location" className="mt-4 w-full" />
+      <SearchCurrentLocation
+        className="mt-4 w-full"
+        onSelectLocation={(location) => {
+          setLocation(location);
+        }}
+      />
       <div className="text-center mt-4">Or</div>
       <button
         onClick={requestUseUserLocation}
