@@ -5,6 +5,10 @@ export default {
     extend: {
       colors: {
         'black-800': '#0F0F0F',
+        'black-1e': '#1E1E1E',
+        'black-5e': '#5E5E5E',
+        'black-36': '#363636',
+        'black-b9': '#B9B9B9',
         'widget': '#272727',
       },
       fontFamily: {
