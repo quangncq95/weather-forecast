@@ -1,22 +1,56 @@
 import Widget from '@/components/common/Widget';
 
 interface Props {
-  indexName: string;
-  indexValue: string;
+  type: 'pressure' | 'wind' | 'humidity' | 'visibility';
+  value: string | number;
+  info?: string;
 }
 
-export function DetailItem() {
+export function DetailItem({ type, value, info }: Props) {
+  const { title, unit } = getTitleAndUnit(type);
+
+  function getTitleAndUnit(type: Props['type']): { title: string; unit: string } {
+    switch (type) {
+      case 'pressure':
+        return {
+          title: 'Pressure',
+          unit: 'hPa',
+        };
+      case 'wind':
+        return {
+          title: 'Wind Status',
+          unit: 'km/h',
+        };
+      case 'humidity':
+        return {
+          title: 'Humidity',
+          unit: '%',
+        };
+      case 'visibility':
+        return {
+          title: 'Visibility',
+          unit: 'km',
+        };
+      default:
+        return {
+          title: 'Unknown',
+          unit: 'N/A',
+        };
+    }
+  }
+
   return (
     <Widget className="p-4">
       <div className="flex flex-col gap-4 items-end">
         <div className="flex items-center gap-2">
-          <img src="/icons/uv.svg" alt="Wind icon" className="size-6" />
-          <span className="font-medium text-base leading-none">Wind Status</span>
+          <img src={`/icons/${type}.svg`} alt={`${type} icon`} className="size-6" />
+          <span className="font-medium text-base leading-none">{title}</span>
         </div>
         <p className="font-semibold text-2xl leading-none">
-          7.90 <span className="text-sm leading-none">km/h</span>
+          {value}
+          <span className="text-sm leading-none"> {unit}</span>
         </p>
-        <p className="text-sm leading-none">9:00 AM</p>
+        {info && <p className="text-sm leading-none">{info}</p>}
       </div>
     </Widget>
   );

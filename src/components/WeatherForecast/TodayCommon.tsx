@@ -1,34 +1,83 @@
 import Widget from '@/components/common/Widget';
 import LocationIcon from '@/components/Icons/LocationIcon';
 import RainyImg from '@/assets/images/type/rainy.png';
+import { CurrentWeather, WeatherForecast } from '@/lib/types/weather';
+import { getLocationName } from '@/lib/utils/location';
+import { Location } from '@/lib/types/location';
+import { format_ddmmmyyyy, getDayOfWeek } from '@/lib/utils/date';
+import { getWeatherIcon } from '@/lib/utils/weather';
 
 interface Props {
   className?: string;
+  location: Location | null;
+  currentWeatherInfo: CurrentWeather | null;
+  foreCastInfo: WeatherForecast | null;
 }
 
-export default function TodayCommon({ className }: Props) {
+export default function TodayCommon({
+  className,
+  location,
+  currentWeatherInfo,
+  foreCastInfo,
+}: Props) {
+  console.log('currentWeatherInfo', currentWeatherInfo);
+  const todayForecast = foreCastInfo?.list.find((item) => {
+    const date = new Date(item.dt * 1000);
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  });
+
+  console.log('todayForecast', todayForecast);
+
   return (
     <Widget className="!bg-black-1e">
       <div className={`flex flex-col gap-2 ${className}`}>
         <div className="py-2 px-4 bg-black-36 rounded-2xl flex items-center gap-2 w-fit">
           <LocationIcon />
-          <p className="text-lg leading-none">Dhaka, Bangladesh</p>
+          <p className="text-lg leading-none">{location ? getLocationName(location) : '~'}</p>
         </div>
         <div className="flex justify-between gap-[29px]">
           <div>
-            <h3 className="font-medium text-[2.25rem]">Sunday</h3>
-            <h3 className="text-base leading-none">04 Aug,2024</h3>
+            <h3 className="font-medium text-[2.25rem]">
+              {currentWeatherInfo ? getDayOfWeek(currentWeatherInfo.dt) : '~'}
+            </h3>
+            <h3 className="text-base leading-none">
+              {currentWeatherInfo ? format_ddmmmyyyy(currentWeatherInfo.dt) : '~'}
+            </h3>
           </div>
           <div className="mt-[46px] flex items-center justify-between gap-[93px]">
-            <img src={RainyImg} alt="Rainy" className="size-[150px] object-fill" />
+            <img
+              src={
+                currentWeatherInfo ? getWeatherIcon(currentWeatherInfo.weather[0].icon) : RainyImg
+              }
+              alt={`${currentWeatherInfo ? currentWeatherInfo.weather[0].main : 'Weather'} icon`}
+              className=" w-auto h-[150px] object-fill"
+            />
             <div className="flex flex-col gap-[45px]">
               <div className="text-right">
-                <h3 className="font-medium text-[2.5rem] leading-none">28°C</h3>
-                <h3 className="font-medium text-2xl leading-none text-black-b9">/24°C</h3>
+                <h3 className="font-medium text-[2.5rem] leading-none">
+                  {currentWeatherInfo ? `${Math.round(currentWeatherInfo?.main.temp)}°C` : '~'}
+                </h3>
+                <h3 className="font-medium text-xl leading-none text-black-b9 mt-2">
+                  {todayForecast ? `Hight : ${Math.round(todayForecast.temp.max)}°C` : '~'}
+                </h3>
+                <h3 className="font-medium text-xl leading-none text-black-b9 mt-2">
+                  {todayForecast ? `Low : ${Math.round(todayForecast.temp.min)}°C` : '~'}
+                </h3>
               </div>
               <div className="text-right">
-                <h3 className="font-medium text-xl leading-none">30°</h3>
-                <h3 className="mt-[7px] text-base leading-none">Feels like 32°</h3>
+                <h3 className="font-medium text-xl leading-none first-letter:uppercase">
+                  {currentWeatherInfo ? currentWeatherInfo.weather[0].description : ''}
+                </h3>
+                <h3 className="mt-[7px] text-base leading-none">
+                  {currentWeatherInfo
+                    ? `Feels like ${Math.round(currentWeatherInfo?.main.feels_like)}°C`
+                    : '~'}
+                </h3>
               </div>
             </div>
           </div>
