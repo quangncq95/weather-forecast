@@ -5,7 +5,7 @@ import OthersCountries from '@/components/WeatherForecast/OthersCountries';
 import SearchCurrentLocation from '@/components/WeatherForecast/SearchCurrentLocation';
 import TodayCommon from '@/components/WeatherForecast/TodayCommon';
 import TodayDetail from '@/components/WeatherForecast/TodayDetail';
-import { weatherApi } from '@/lib/apis/currentWeatherApi';
+import { weatherApi } from '@/lib/apis/weatherApi';
 import { CurrentWeather, WeatherForecast } from '@/lib/types/weather';
 import { useEffect, useState } from 'react';
 import { Location } from '@/lib/types/location';

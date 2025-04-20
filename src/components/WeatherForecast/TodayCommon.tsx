@@ -1,6 +1,5 @@
 import Widget from '@/components/common/Widget';
 import LocationIcon from '@/components/Icons/LocationIcon';
-import RainyImg from '@/assets/images/type/rainy.png';
 import { CurrentWeather, WeatherForecast } from '@/lib/types/weather';
 import { getLocationName } from '@/lib/utils/location';
 import { Location } from '@/lib/types/location';
@@ -20,7 +19,6 @@ export default function TodayCommon({
   currentWeatherInfo,
   foreCastInfo,
 }: Props) {
-  console.log('currentWeatherInfo', currentWeatherInfo);
   const todayForecast = foreCastInfo?.list.find((item) => {
     const date = new Date(item.dt * 1000);
     const today = new Date();
@@ -30,8 +28,6 @@ export default function TodayCommon({
       date.getFullYear() === today.getFullYear()
     );
   });
-
-  console.log('todayForecast', todayForecast);
 
   return (
     <Widget className="!bg-black-1e">
@@ -52,10 +48,12 @@ export default function TodayCommon({
           <div className="mt-[46px] flex items-center justify-between gap-[93px]">
             <img
               src={
-                currentWeatherInfo ? getWeatherIcon(currentWeatherInfo.weather[0].icon) : RainyImg
+                currentWeatherInfo
+                  ? getWeatherIcon(currentWeatherInfo.weather[0].icon)
+                  : '/icons/weather/01d.png'
               }
               alt={`${currentWeatherInfo ? currentWeatherInfo.weather[0].main : 'Weather'} icon`}
-              className=" w-auto h-[150px] object-fill"
+              className=" w-auto h-[170px] object-fill"
             />
             <div className="flex flex-col gap-[45px]">
               <div className="text-right">

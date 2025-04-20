@@ -8,3 +8,9 @@ export function getLocationName(location: Location): string {
   }
   return `${name}, ${regionNames.of(country)}`;
 }
+
+export function getCountryName(location: Location): string {
+  const { country } = location;
+  let regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+  return `${regionNames.of(country)}`;
+}

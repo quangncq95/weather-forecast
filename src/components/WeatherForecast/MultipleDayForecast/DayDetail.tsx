@@ -2,7 +2,6 @@ import Widget from '@/components/common/Widget';
 import { DailyForecast } from '@/lib/types/weather';
 import { getDayOfWeek } from '@/lib/utils/date';
 import { getWeatherIcon } from '@/lib/utils/weather';
-import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
 interface Props {
