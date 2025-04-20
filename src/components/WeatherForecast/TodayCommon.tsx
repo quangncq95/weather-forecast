@@ -31,21 +31,21 @@ export default function TodayCommon({
 
   return (
     <Widget className="!bg-black-1e">
-      <div className={`flex flex-col gap-2 ${className}`}>
+      <div className={`flex flex-col items-center 2xl:items-start gap-2 ${className}`}>
         <div className="py-2 px-4 bg-black-36 rounded-2xl flex items-center gap-2 w-fit">
           <LocationIcon />
           <p className="text-lg leading-none">{location ? getLocationName(location) : '~'}</p>
         </div>
-        <div className="flex justify-between gap-[29px]">
+        <div className="flex flex-col sm:flex-row lg:flex-col 2xl:flex-row xl:items-center justify-between gap-[29px]">
           <div>
-            <h3 className="font-medium text-[2.25rem]">
+            <h3 className="font-medium text-2xl  md:text-[2.25rem]">
               {currentWeatherInfo ? getDayOfWeek(currentWeatherInfo.dt) : '~'}
             </h3>
             <h3 className="text-base leading-none">
               {currentWeatherInfo ? format_ddmmmyyyy(currentWeatherInfo.dt) : '~'}
             </h3>
           </div>
-          <div className="mt-[46px] flex items-center justify-between gap-[93px]">
+          <div className="mt-6 2xl:mt-[46px] flex flex-col sm:flex-row lg:flex-col 2xl:flex-row items-center justify-between xl:gap-6 2xl:gap-[93px]">
             <img
               src={
                 currentWeatherInfo
@@ -55,9 +55,9 @@ export default function TodayCommon({
               alt={`${currentWeatherInfo ? currentWeatherInfo.weather[0].main : 'Weather'} icon`}
               className=" w-auto h-[170px] object-fill"
             />
-            <div className="flex flex-col gap-[45px]">
+            <div className="flex flex-row sm:flex-col lg:flex-row 2xl:flex-col gap-[45px]">
               <div className="text-right">
-                <h3 className="font-medium text-[2.5rem] leading-none">
+                <h3 className="font-medium text-2xl sm:text-[2.5rem] leading-none">
                   {currentWeatherInfo ? `${Math.round(currentWeatherInfo?.main.temp)}°C` : '~'}
                 </h3>
                 <h3 className="font-medium text-xl leading-none text-black-b9 mt-2">

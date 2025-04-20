@@ -4,9 +4,10 @@ interface Props {
   type: 'pressure' | 'wind' | 'humidity' | 'visibility';
   value: string | number;
   info?: string;
+  className?: string;
 }
 
-export function DetailItem({ type, value, info }: Props) {
+export function DetailItem({ type, value, info, className }: Props) {
   const { title, unit } = getTitleAndUnit(type);
 
   function getTitleAndUnit(type: Props['type']): { title: string; unit: string } {
@@ -40,7 +41,7 @@ export function DetailItem({ type, value, info }: Props) {
   }
 
   return (
-    <Widget className="p-4">
+    <Widget className={`p-4 ${className}`}>
       <div className="flex flex-col gap-4 items-end">
         <div className="flex items-center gap-2">
           <img src={`/icons/${type}.svg`} alt={`${type} icon`} className="size-6" />

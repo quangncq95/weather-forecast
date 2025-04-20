@@ -9,7 +9,7 @@ interface Props {
 export default function MultipleDayForecast({ foreCastInfo }: Props) {
   return (
     <Widget className="!bg-black-1e">
-      <h3 className="font-semibold text-2xl leading-none">10 Day Forecast</h3>
+      <h3 className="font-semibold text-2xl leading-none">7 Days Forecast</h3>
       {foreCastInfo && (
         <div className="flex gap-[18px] mt-6 w-full overflow-x-auto pb-4">
           {foreCastInfo?.list.map((dailyForecast) => {

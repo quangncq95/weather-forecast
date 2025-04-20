@@ -68,14 +68,14 @@ export default function MainPage() {
 
   return (
     <DefaultLayout>
-      <div className="flex items-center justify-between mt-[44px]">
+      <div className="flex items-center justify-between ">
         <div className="flex flex-col gap-1.5">
           <h3 className="text-lg leading-none">Hi, {userName}</h3>
           <p className="font-semibold text-2xl leading-none">{getHelloString()}</p>
         </div>
         <SearchCurrentLocation onSelectLocation={handleSelectLocation} />
       </div>
-      <div className="grid grid-cols-2 gap-6 mt-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         <TodayCommon
           location={currentLocation}
           currentWeatherInfo={currentWeatherInfo}
