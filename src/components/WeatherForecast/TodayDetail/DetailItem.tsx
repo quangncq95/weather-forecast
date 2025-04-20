@@ -1,5 +1,4 @@
 import Widget from '@/components/common/Widget';
-import WindIcon from '@/assets/icons/wind.svg';
 
 interface Props {
   indexName: string;

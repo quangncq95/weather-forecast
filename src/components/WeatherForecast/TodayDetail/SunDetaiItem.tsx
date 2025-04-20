@@ -1,4 +1,4 @@
-import Widget from '../common/Widget';
+import Widget from '@/components/common/Widget';
 
 export default function SunDetailItem() {
   return (
