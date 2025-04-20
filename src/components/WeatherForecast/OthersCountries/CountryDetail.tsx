@@ -62,10 +62,13 @@ export default function CountryDetail({ location, itemIndex, onDrop }: Props) {
     //@ts-ignore
     <div ref={drop}>
       <div
-        className={`w-full h-[120px] rounded-2xl  border-black-5e transition-all ${isOver && !isDragging && fromIndex > itemIndex ? 'h-[120px] border mb-6' : 'h-0 border-none'}`}
+        className={`w-full rounded-2xl  border-black-5e transition-all ${isOver && !isDragging && fromIndex > itemIndex ? 'h-[120px] border mb-6' : 'h-0 border-none'}`}
       ></div>
       {/* @ts-ignore */}
-      <Widget ref={drag} className={`group relative  ${isDragging ? 'opacity-0' : 'cursor-grab'}`}>
+      <Widget
+        ref={drag}
+        className={`group relative  ${isDragging ? 'opacity-0.5' : 'cursor-grab'}`}
+      >
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-2 w-[200px]">
             <h3 className="text-sm leading-none text-black-b9">{getCountryName(location)}</h3>
@@ -102,7 +105,7 @@ export default function CountryDetail({ location, itemIndex, onDrop }: Props) {
         </button>
       </Widget>
       <div
-        className={`w-full h-[120px] rounded-2xl  border-black-5e transition-all ${isOver && !isDragging && fromIndex < itemIndex ? 'h-[120px] border mt-6' : 'h-0 border-none'}`}
+        className={`w-full rounded-2xl  border-black-5e transition-all ${isOver && !isDragging && fromIndex < itemIndex ? 'h-[120px] border mt-6' : 'h-0 border-none'}`}
       ></div>
     </div>
   );

@@ -7,7 +7,7 @@ import TodayCommon from '@/components/WeatherForecast/TodayCommon';
 import TodayDetail from '@/components/WeatherForecast/TodayDetail';
 import { weatherApi } from '@/lib/apis/weatherApi';
 import { CurrentWeather, WeatherForecast } from '@/lib/types/weather';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Location } from '@/lib/types/location';
 import { getHelloString } from '@/lib/utils/date';
 
@@ -15,12 +15,33 @@ export default function MainPage() {
   const [currentWeatherInfo, setCurrentWeatherInfo] = useState<CurrentWeather | null>(null);
   const [weatherForeCast, setWeatherForecast] = useState<WeatherForecast | null>(null);
   const { userName, currentLocation, setCurrentLocation } = useAppConfig();
+  const timeIdRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    if (timeIdRef.current) {
+      clearTimeout(timeIdRef.current);
+    }
     if (!currentLocation) return;
-    getCurrentWeatherData(currentLocation);
-    getForecastWeatherData(currentLocation);
+
+    getData(currentLocation);
+    timeIdRef.current = setInterval(
+      () => {
+        getData(currentLocation);
+      },
+      5 * 60 * 1000,
+    );
+
+    return () => {
+      if (timeIdRef.current) {
+        clearTimeout(timeIdRef.current);
+      }
+    };
   }, [currentLocation]);
+
+  function getData(location: Location) {
+    getCurrentWeatherData(location);
+    getForecastWeatherData(location);
+  }
 
   async function getCurrentWeatherData(location: Location) {
     const res = await weatherApi.getCurrentWeather({ lat: location.lat, lon: location.lon });

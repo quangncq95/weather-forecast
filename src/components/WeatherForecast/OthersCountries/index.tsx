@@ -33,7 +33,7 @@ export default function OthersCountries() {
         {listCountries.map((location, index) => {
           return (
             <CountryDetail
-              key={index}
+              key={location.country + location.name}
               location={location}
               itemIndex={index}
               onDrop={handleDragDrop}
