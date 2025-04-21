@@ -32,12 +32,7 @@ export default function OthersCountries() {
       <div className="flex flex-col gap-[1.125rem] mt-6">
         {listCountries.map((location, index) => {
           return (
-            <CountryDetail
-              key={location.country + location.name}
-              location={location}
-              itemIndex={index}
-              onDrop={handleDragDrop}
-            />
+            <CountryDetail key={location.timeId} location={location} onDrop={handleDragDrop} />
           );
         })}
       </div>

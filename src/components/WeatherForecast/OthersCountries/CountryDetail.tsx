@@ -1,6 +1,6 @@
 import Widget from '@/components/common/Widget';
 import { Location } from '@/lib/types/location';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { weatherApi } from '@/lib/apis/weatherApi';
 import { CurrentWeather } from '@/lib/types/weather';
 import { getCountryName } from '@/lib/utils/location';
@@ -8,16 +8,16 @@ import { getWeatherIcon } from '@/lib/utils/weather';
 import CloseIcon from '@/components/Icons/CloseIcon';
 import { useAppConfig } from '@/components/context/AppConfigProvider';
 import { useDrag, useDrop } from 'react-dnd';
-
+import { Country } from '@/components/context/AppConfigProvider';
 interface Props {
-  itemIndex: number;
-  location: Location;
+  location: Country;
   onDrop?: (fromIndex: number, toIndex: number) => void;
 }
 
-export default function CountryDetail({ location, itemIndex, onDrop }: Props) {
+export default function CountryDetail({ location, onDrop }: Props) {
   const { listCountries, setListCountries } = useAppConfig();
   const [currentWeatherInfo, setCurrentWeatherInfo] = useState<CurrentWeather | null>(null);
+
   useEffect(() => {
     if (!location) return;
     getCurrentWeatherData(location);
@@ -31,38 +31,64 @@ export default function CountryDetail({ location, itemIndex, onDrop }: Props) {
   }
 
   function handleRemoveCountry() {
-    const newListCountries = listCountries.filter(
-      (item) => item.lat !== location.lat && item.lon !== location.lon,
-    );
+    const newListCountries = listCountries.filter((item) => item.timeId !== location.timeId);
     setListCountries(newListCountries);
   }
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'Country',
-    item: { itemIndex },
+    item: { id: location.timeId },
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
 
-  const [{ isOver, fromIndex }, drop] = useDrop(() => ({
-    accept: 'Country',
-    drop: (item: { itemIndex: number }) => {
-      if (item.itemIndex !== itemIndex) {
-        onDrop && onDrop(item.itemIndex, itemIndex);
+  const moveFromIdToIdMemoized = useCallback(
+    (fromId: number, toId: number) => {
+      const fromIndex = listCountries.findIndex((country) => country.timeId === fromId);
+      const toIndex = listCountries.findIndex((country) => country.timeId === toId);
+      if (onDrop) {
+        onDrop(fromIndex, toIndex);
       }
     },
-    collect: (monitor: any) => ({
-      isOver: !!monitor.isOver(),
-      fromIndex: monitor.getItem()?.itemIndex,
+    [listCountries, onDrop],
+  );
+
+  const [{ isOver, movingId }, drop] = useDrop(
+    () => ({
+      accept: 'Country',
+      drop: (item: { id: number }) => {
+        const fromId = item.id;
+        const toId = location.timeId;
+        moveFromIdToIdMemoized(fromId, toId);
+      },
+      collect: (monitor: any) => {
+        const item = monitor.getItem();
+        if (!item) return { isOver: false, movingId: null };
+
+        return {
+          movingId: item.id,
+          isOver: !!monitor.isOver(),
+        };
+      },
     }),
-  }));
+    [moveFromIdToIdMemoized],
+  );
+
+  const isMoveUp = useMemo(() => {
+    if (!movingId) return false;
+    const fromIndex = listCountries.findIndex((country) => country.timeId === movingId);
+    const toIndex = listCountries.findIndex((country) => country.timeId === location.timeId);
+    return fromIndex > toIndex;
+  }, [movingId, listCountries]);
+
+  console.log('isMoveUp', isMoveUp, 'movingId', movingId, 'location.timeId', location.timeId);
 
   return (
     //@ts-ignore
     <div ref={drop}>
       <div
-        className={`w-full rounded-2xl  border-black-5e transition-all ${isOver && !isDragging && fromIndex > itemIndex ? 'h-[120px] border mb-6' : 'h-0 border-none'}`}
+        className={`w-full rounded-2xl  border-black-5e transition-all ${isOver && !isDragging && isMoveUp ? 'h-[120px] border mb-6' : 'h-0 border-none'}`}
       ></div>
       {/* @ts-ignore */}
       <Widget
@@ -106,7 +132,7 @@ export default function CountryDetail({ location, itemIndex, onDrop }: Props) {
         </button>
       </Widget>
       <div
-        className={`w-full rounded-2xl  border-black-5e transition-all ${isOver && !isDragging && fromIndex < itemIndex ? 'h-[120px] border mt-6' : 'h-0 border-none'}`}
+        className={`w-full rounded-2xl  border-black-5e transition-all ${isOver && !isDragging && !isMoveUp ? 'h-[120px] border mt-6' : 'h-0 border-none'}`}
       ></div>
     </div>
   );

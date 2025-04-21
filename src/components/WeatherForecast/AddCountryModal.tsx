@@ -4,6 +4,7 @@ import { useModal } from '@/components/common/Modal';
 import SearchCurrentLocation from './SearchCurrentLocation';
 import { getLocationName } from '@/lib/utils/location';
 import { useAppConfig } from '@/components/context/AppConfigProvider';
+import dayjs from 'dayjs';
 
 export default function AddCountryModal() {
   const { closeModal } = useModal();
@@ -16,7 +17,11 @@ export default function AddCountryModal() {
 
   function handleAddCountry() {
     if (location) {
-      const newListCountries = [location, ...listCountries];
+      const newCountry = {
+        ...location,
+        timeId: dayjs().unix(),
+      };
+      const newListCountries = [newCountry, ...listCountries];
       setListCountries(newListCountries);
       setLocation(null);
       closeModal();

@@ -7,15 +7,17 @@ import WelcomeModal from '@/components/WeatherForecast/WelcomeModal';
 const AppConfigContext = createContext({
   currentLocation: null as Location | null,
   setCurrentLocation: (location: Location) => {},
-  listCountries: [] as Location[],
-  setListCountries: (countries: Location[]) => {},
+  listCountries: [] as Country[],
+  setListCountries: (countries: Country[]) => {},
   userName: '',
   setUserName: (name: string) => {},
 });
 
+export type Country = Location & { timeId: number };
+
 export default function AppConfigProvider({ children }: { children: React.ReactNode }) {
   const [currentLocation, setStateCurrentLocation] = useState<Location | null>(null);
-  const [listCountries, setStateListCountries] = useState<Location[]>([]);
+  const [listCountries, setStateListCountries] = useState<Country[]>([]);
   const [userName, setStateUserName] = useState<string>('');
 
   const modalRef = useRef<any>(null);
@@ -44,7 +46,7 @@ export default function AppConfigProvider({ children }: { children: React.ReactN
     setStateCurrentLocation(location);
     localStorage.setItem(StorageKey.CurrentLocation, JSON.stringify(location));
   }
-  function setListCountries(countries: Location[]) {
+  function setListCountries(countries: Country[]) {
     setStateListCountries(countries);
     localStorage.setItem(StorageKey.ListCountries, JSON.stringify(countries));
   }
